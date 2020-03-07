@@ -39,3 +39,12 @@
 .headerPage {
   display: flex;
 }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+}
+
+/* .review {
+  display: none;
+} */
