@@ -1,41 +1,57 @@
 import React from 'react';
+import { connect } from 'react-redux';
 let ramenData = require('../data/ramen.json')
 
 class Review extends React.Component {
-    state = {
-        country: null,
-        ramen_brand: null,
-        ramen_variety: null,
-        review_score: null,
-    }
+    // state = {
+    //     country: null,
+    //     ramen_brand: null,
+    //     ramen_variety: null,
+    //     review_score: null,
+    // }
 
-    updateReview = () => {
-        let randomIndex = Math.floor(Math.random() * 3180)
-        this.state.country = ramenData[randomIndex]["country"]
-        this.state.ramen_brand = ramenData[randomIndex]["brand"]
-        this.state.ramen_variety = ramenData[randomIndex]["variety"]
-        this.state.review_score = ramenData[randomIndex]["stars"]
-        this.props.updateReview(this.state)
+    handleClick = () => {
+        console.log(this.props)
+        this.props.updateReview();
     }
 
     render() {
+        let review = this.props
+        console.log(review)
         return (
             <div class="center">
             <div class="random-button">
-                <button onClick={this.updateReview}>
+                <button onClick={this.handleClick}>
                     Select Random!
                 </button>
             </div>
             <div class="review">
                 <br></br>
-                <p class="review-data">The country is {this.state.country}</p>
-                <p class="review-data">The brand is {this.state.ramen_brand}</p>
-                <p class="review-data">The variety is {this.state.ramen_variety}</p>
-                <p class="review-data">The review is {this.state.review_score}</p>
+                <p class="review-data">The country is {review.country}</p>
+                <p class="review-data">The brand is {review.ramen_brand}</p>
+                <p class="review-data">The variety is {review.ramen_variety}</p>
+                <p class="review-data">The review is {review.review_score}</p>
             </div>
             </div>
         )
     }
 }
 
-export default Review;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateReview: () => {
+            dispatch({type: 'UPDATE_REVIEW'})
+        }
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        country: state.country,
+        ramen_brand: state.ramen_brand,
+        ramen_variety: state.ramen_variety,
+        review_score: state.review_score,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Review);
